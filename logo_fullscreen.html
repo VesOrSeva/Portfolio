@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Fullscreen Logo</title>
+
+<style>
+  :root {
+    --accent: #c00000; /* Red demon eye color — you can change */
+  }
+
+  body {
+    margin: 0;
+    background: #000; /* Black background so screenshot is clean */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    overflow: hidden;
+  }
+
+  /* Scale SVG proportionally to maximum possible size */
+  .logo-wrapper {
+    width: 90vmin;   /* take 90% of the smaller side */
+    height: 90vmin;
+  }
+
+  svg {
+    width: 100%;
+    height: 100%;
+  }
+</style>
+</head>
+<body>
+
+<div class="logo-wrapper">
+  <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+    <rect x="6" y="6" width="88" height="88" rx="12"
+          fill="#0a0a0b" stroke="#fff" stroke-width="3" />
+
+    <!-- FLIPPED + DEMON EYE (as provided) -->
+    <g transform="translate(18,18) rotate(180 30 30)">
+      <!-- V shape -->
+      <path d="M10 50 L30 10 L50 50"
+            fill="none"
+            stroke="white"
+            stroke-width="4.5"
+            stroke-linejoin="round"
+            stroke-linecap="round" />
+        
+
+      <!-- Eye white -->
+      <ellipse cx="30" cy="40" rx="7" ry="5" fill="#fff" />
+
+
+      <!-- Red pupil -->
+      <ellipse cx="30" cy="40" rx="1.4" ry="3" fill="var(--accent)" />
+    </g>
+  </svg>
+</div>
+
+</body>
+</html>

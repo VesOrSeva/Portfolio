@@ -1,0 +1,755 @@
+<!doctype html> 
+<html lang="en">
+  <head>  
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Vsevolod Kolomytsev — Portfolio</title>
+    <style>
+      /* ------------------
+         Dark · Brutal · Bald
+         Edit placeholders below
+         ------------------ */
+      :root{
+        --bg:#050506;        /* almost black */
+        --panel:#0a0a0b;     /* dark panel */
+        --muted:#9aa0a6;     /* gray text */
+        --text:#eeeeee;      /* main text */
+        --accent:#ff1a1a;    /* bright red accent */
+        --mono: "SFMono-Regular", Consolas, "Liberation Mono", Menlo, monospace;
+      }
+
+      /* reset */
+      *{box-sizing:border-box}
+      html,body{height:100%}
+      body{
+        margin:0;
+        background:var(--bg);
+        color:var(--text);
+        font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+        -webkit-font-smoothing:antialiased;
+        -moz-osx-font-smoothing:grayscale;
+        overflow-x:hidden;
+      }
+      
+      /* Glowing pupil */
+      .glow ellipse {
+          filter: drop-shadow(0 0 2.5px #ff0000)
+          drop-shadow(0 0 10px #ff1a1a)
+          drop-shadow(0 0 14px #ff1a1a);
+      transition: filter 0.25s ease-out;
+      }
+
+      #whispers {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        overflow: visible;
+        z-index: -9998;
+        font-family: var(--mono);
+        color: rgba(255, 0, 0, 0.2);
+        font-size: 18px;
+        mix-blend-mode: screen;
+      }
+
+      .whisper {
+        position: absolute;
+        white-space: nowrap;
+        opacity: 0;
+        transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+        user-select: none;
+        pointer-events: none;
+      }
+
+      
+     /* TERMINAL INTRO */
+    .intro-overlay{
+      position: fixed;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.99); /* slightly transparent black */
+      z-index: 9999;
+      padding: 2rem;
+    }
+
+    .terminal{
+      width: min(900px, 95%);
+      max-width: 1100px;
+      padding: 2rem;
+      border-radius: 6px;
+      background: rgba(6,6,7,0.99); /* slightly transparent dark panel */
+      box-shadow:0 10px 30px rgba(0,0,0,0.9);
+      border-left: 5px solid var(--accent);
+    }
+
+    .terminal .line{
+      font-family: var(--mono);
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--muted);
+    }
+
+    .cursor{
+      display:inline-block;
+      width:8px;
+      height:16px;
+      background: var(--text);
+      margin-left:6px;
+      vertical-align:middle;
+      animation:blink 1s steps(2) infinite;
+    }
+
+    @keyframes blink{50%{opacity:0}}
+
+    /* LAYOUT */
+    header{
+      display:flex;
+      align-items:center;
+      gap:20px;
+      padding:28px 32px;
+    }
+
+    .logo{display:flex; align-items:center; gap:14px}
+    .logo svg{width:62px; height:62px}
+    .brand{font-weight:700; letter-spacing:1px}
+    .tag{color: var(--muted); font-size:14px}
+
+    main{
+      max-width: 1100px;
+      margin: 30px auto;
+      padding: 0 20px 80px;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: 1fr; /* single column default */
+      gap: 36px;
+      align-items: center;
+      margin-top: 28px;
+    }
+
+    /* Wide screen layout */
+    @media (min-width: 880px) {
+      /* First hero: left bigger */
+      .hero:first-of-type {
+        grid-template-columns: 2fr 1fr;
+      }
+
+      /* Second hero: right bigger */
+      .hero:nth-of-type(2) {
+        grid-template-columns: 1fr 2fr;
+      }
+    }
+      
+    /* Hero section panel background */
+    .hero-panel {
+      background: rgba(10,10,11,0.8); /* subtle dark panel */
+      border-radius: 12px;
+      border: 2px solid rgba(255,255,255,0.05);
+      padding: 24px;
+      margin-top: 28px;
+    } 
+
+    .hero-left{
+      padding:28px;
+      background: rgba(10,10,11,0.8); /* slightly transparent panel */
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,0.05);
+    }
+
+    h1{margin:0; font-size:46px; line-height:1; font-weight:800}
+    .tagline{color: var(--muted); margin-top:10px}
+    .cta-row{display:flex; gap:12px; margin-top:18px}
+    .btn{
+      padding:10px 14px;
+      border-radius:6px;
+      border:1px solid rgba(255,255,255,0.05);
+      background: rgba(10,10,11,0.92); /* subtle transparency */
+      color: var(--text);
+      cursor:pointer;
+      font-weight:600;
+    }
+    .btn.primary{
+      background: var(--accent);
+      color:#fff;
+      border:none;
+    }
+
+    /* logo column */
+    .hero-right{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .badge-logo {
+        width: 100%;
+        max-width: 340px;   /* controls max size */
+        aspect-ratio: 4 / 4; /* keeps proportional shape */
+        border-radius: 12px;
+        background: rgba(255, 0, 0, 0);
+        display:flex;
+        align-items:center;
+        justify-content:center;
+        border:2px solid rgba(255, 255, 255, 0);
+        box-shadow:0 8px 40px rgba(0, 0, 0, 0);
+        overflow: hidden; /* ensures images don't overflow */
+    }
+    .badge-logo img,
+    .badge-logo svg {
+        width: 100%; 
+        height: 100%; 
+        object-fit: cover;
+    }
+
+    /* sections */
+    section{margin-top:30px}
+    .panel{
+      padding:18px;
+      border-radius:8px;
+      background: rgba(10,10,11,0.9); /* subtle transparency */
+      border:1px solid rgba(255,255,255,0.03);
+    }
+    .muted{color: var(--muted)}
+
+    /* Projects grid */
+    .projects{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+      gap:18px;
+    }
+    .project{
+      padding:14px;
+      border-radius:8px;
+      background: rgba(10,10,11,0.79); /* subtle transparency */
+      border:1px solid rgba(255,255,255,0.05);
+    }
+    .proj-head{display:flex;justify-content:space-between;align-items:center}
+    .proj-title{font-weight:700}
+    .proj-meta{font-family:var(--mono); font-size:12px; color:var(--muted)}
+    .proj-desc{margin-top:10px;color:var(--muted);min-height:48px}
+    .proj-media{margin-top:12px}
+    .proj-actions{display:flex;gap:8px;margin-top:12px}
+
+    /* skills */
+    .skills-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
+    .skill{
+      padding:8px 10px;
+      border-radius:6px;
+      border:1px solid rgba(255,255,255,0.05);
+      background: rgba(10,10,11,0.81); /* subtle transparency */
+      font-family:var(--mono);
+      font-size:13px;
+    }
+
+    /* contact */
+    .contact-grid{display:flex;gap:12px;flex-wrap:wrap}
+    .contact a{
+      color:var(--muted);
+      text-decoration:none;
+      padding:10px 12px;
+      border-radius:6px;
+      border:1px solid rgba(255,255,255,0.05);
+      background: rgba(10,10,11,0.81); /* subtle transparency */
+    }
+
+    footer{
+      margin-top:40px;
+      padding:20px;
+      text-align:center;
+      color:var(--muted);
+      font-size:13px;
+    }
+
+      /* responsive */
+      @media (max-width:880px){
+        .hero{grid-template-columns:1fr;}
+        .hero-right{order:-1}
+        h1{font-size:36px}
+      }
+
+      /* small decorative red line */
+      .accent-line{height:3px;background:var(--accent);width:140px;border-radius:2px;margin-top:10px}
+
+      /* subtle animations */
+      .fade-in{opacity:0;transform:translateY(6px);animation:enter .6s forwards}
+      @keyframes enter{to{opacity:1;transform:none}}
+
+      /* clickable tiny sound hint */
+      .sound-hint{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:8px}
+    </style>
+  </head>
+
+  <body>
+    
+    <div id="whispers"></div>
+    
+    <canvas id="fogCanvas" style="
+      position:fixed;
+      inset:0;
+      z-index:-9999;
+      pointer-events:none;">
+    </canvas>
+
+    
+    <!-- INTRO OVERLAY (will auto-hide) -->
+    <div id="intro" class="intro-overlay">
+      <div class="terminal" role="dialog" aria-label="intro terminal">
+        <div class="line" id="terminalText">
+        </div>
+      </div>
+    </div>
+
+    <header>
+      <div class="logo">
+        <!-- UPDATED HEADER LOGO — FLIPPED & DEMON EYE -->
+        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+          <rect x="6" y="6" width="88" height="88" rx="12" fill="#0a0a0b" stroke="#fff" stroke-width="3" />
+          <g transform="translate(18,18) rotate(180 30 30)">
+            <path d="M10 50 L30 10 L50 50" fill="none" stroke="white" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+            <ellipse cx="30" cy="40" rx="7" ry="5" fill="#fff" />
+            <ellipse cx="30" cy="40" rx="1.8" ry="2.8" fill="var(--accent)" />
+          </g>
+        </svg>
+
+        <div>
+          <div class="brand">Ves</div>
+          <div class="tag">Game developer</div>
+        </div>
+      </div>
+    </header>
+
+     <main>
+    <!-- First Hero Section -->
+    <div class="hero hero-panel fade-in">
+      <div class="hero-left">
+        <h1>Nice To Meet you!</h1>
+        <div class="tagline">Hey! I’m Ves, a game developer who spends an unreasonable amount of time making things feel "intresting".
+          If something moves, shakes, flashes or pulses that’s probably my fault.</div>
+        <div class="accent-line"></div>
+
+        <p style="margin-top:16px;color:var(--muted)">
+         I handle most of the pipeline: design, code, art, audio, music - anything except documentation.
+        </p>
+
+        <div class="cta-row">
+          <button class="btn primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View projects</button>
+          <button class="btn" onclick="playClick()">Play sound <span class="sound-hint"></span></button>
+        </div>
+
+        <div style="margin-top:18px">
+          <strong class="muted">Quick info</strong>
+          <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
+            <div class="skill">Desired Role: Game Feel Designer(Juice master)</div>
+            <div class="skill">Location: UAE</div>
+
+          </div>
+        </div>
+      </div>
+      
+      <!-- Right: Hero Badge Logo -->
+      <div class="hero-right">
+        <div class="badge-logo">
+          <svg viewBox="0 0 210 210">
+            <rect x="5" y="5" width="200" height="200" rx="16" fill="#060606" stroke="#fff" stroke-width="8" />
+
+            <!-- Horn-like cracked V -->
+            <path d="M57 55 L101 145 L145 55" fill="none" stroke="#fff" stroke-width="8" stroke-linejoin="round" stroke-linecap="round" />
+
+            <!-- Demon eye -->
+            <ellipse cx="100" cy="80" rx="14" ry="10" fill="#fff" />
+            <g class="pupil glow" transform="translate(0,0)">
+              <ellipse cx="100" cy="80" rx="2.8" ry="5" fill="#ff0000" />
+            </g>
+          </svg>
+        </div>
+      </div>
+    </div> <!-- end of first hero -->
+
+      <!-- Brutalist Divider -->
+      <div style="height:4px;background:var(--accent);margin:60px 0;border-radius:2px;"></div>
+
+      <!-- BIG SECTION PANEL that follows -->
+      <section class="panel" style="margin-top:60px;padding:32px;">
+        <h2>TLDR</h2>
+        <p class="muted">If you’re looking for someone who can take a game from “it runs” to “this is somewhat enjoyable,” that’s where I’m most comfortable.</p>
+      </section>
+
+
+      <!-- PROJECTS -->
+       <section id="projects" class="panel" style="margin-top:60px; padding:32px;">
+        <h2>Projects</h2>
+
+        <div class="projects">
+          <!-- Project 1 -->
+          <article class="project panel">
+            <div class="proj-head">
+              <div>
+                <div class="proj-title">In The Ground</div>
+                <div class="proj-meta">Development: 3 months · Role: Lead Designer</div>
+              </div>
+            </div>
+            <div class="proj-desc">Your choices will shape the final chapter  of mankind.</div>
+                <img src="Images/NewLook.jpg"
+                alt="Main image"
+                style="width:100%;height:67%;object-fit:cover;border-radius:12px;">
+            <div class="proj-actions">
+              <button class="btn" onclick="openLink('#')">View</button>
+              <button class="btn" onclick="openLink('#')">Download</button>
+            </div>
+          </article>
+
+          <!-- Project 2 -->
+          <article class="project panel">
+            <div class="proj-head">
+              <div>
+                <div class="proj-title">ReShot</div>
+                <div class="proj-meta">Development: 3 days · Role: Lead Designer</div>
+              </div>
+            </div>
+            <div class="proj-desc">A game where you shoot bullets through time.</div>
+                <img src="Images/ItchPageNewShadow.png"
+                alt="Main image"
+                style="width:100%;height:67%;object-fit:cover;border-radius:12px;">
+            <div class="proj-actions">
+              <button class="btn" onclick="openLink('#')">View</button>
+              <button class="btn" onclick="openLink('#')">Download</button>
+            </div>
+          </article>
+
+          <!-- Project 3 -->
+          <article class="project panel">
+            <div class="proj-head">
+              <div>
+                <div class="proj-title">HEART BEAT</div>
+                <div class="proj-meta">Development: 3 months · Role: Solo Developer</div>
+              </div>
+            </div>
+            <div class="proj-desc">A Stylish, Rhythm FPS.</div>
+                <img src="Images/HeartBeatLogo.png"
+                alt="Main image"
+                style="width:100%;height:67%;object-fit:cover;border-radius:12px;">
+            <div class="proj-actions">
+              <button class="btn" onclick="openLink('#')">View</button>
+              <button class="btn" onclick="openLink('#')">Download</button>
+            </div>
+          </article>
+        </div>
+      </section>
+       
+       
+      <!-- About Me -->
+        <section class="panel" style="margin-top:60px;padding:32px;">
+          <h2>About Me</h2>
+          <p class="muted">
+            This section exists in case you’re curious. If not, skipping it is a valid and respected choice.
+          </p>
+          <p class="muted">
+            Hi! I'm Ves, I’m twenty. I listen to metal and rock. I can do a backflip if asked politely. If asked very politely, results may vary.
+          </p>
+          <p class="muted">
+            I used to do a lot of parkour and acrobatics. I’m really into board games, extreme sports, and “unique” sometimes dangerous activities.
+          </p>
+          <p class="muted">
+            Personally, I’m very friendly, and there’s hardly anything that can offend me. I love road trips. My favourite animal is the beaver.
+          </p>
+        </section>
+
+      <!-- SKILLS -->
+      <section class="panel" style="margin-top:60px;padding:32px;">
+            <h2>Skills I Know</h2>
+          <div class="skills-grid">
+            <!-- placeholders you will edit -->
+            <div class="skill">Level Design</div>
+            <div class="skill">Systems Design</div>
+            <div class="skill">Narrative Design</div>
+            <div class="skill">Audio Design</div>
+            <div class="skill">General programing</div>
+            <div class="skill">Systems programing</div>
+          </div>  
+      </section>
+
+       
+      <!-- Tools -->
+      <section class="panel" style="margin-top:60px;padding:32px;">
+            <h2>Tools I Know</h2>
+          <div class="skills-grid">
+            <!-- placeholders you will edit -->
+            <div class="skill">Unity</div>
+            <div class="skill">Godot</div>
+            <div class="skill">C#</div>
+            <div class="skill">FMOD</div>
+            <div class="skill">Wwise</div>
+            <div class="skill">Photoshop</div>
+            <div class="skill">Aseprite</div>
+            <div class="skill">Krita</div>
+            <div class="skill">Audacity</div>
+            <div class="skill">Flstudio</div>
+            <div class="skill">Git</div>
+            <div class="skill">Fork</div>
+            <div class="skill">Trello</div>
+            <div class="skill">Miro</div>
+          </div> 
+      </section>
+       
+
+      <!-- CONTACT -->
+      <section class="panel" style="margin-top:60px;padding:32px;">
+            <h2>Contact</h2>
+          <div class="contact-grid">
+            <a href="#" aria-label="Email">Email</a>
+            <a href="#" aria-label="GitHub">GitHub</a>
+            <a href="#" aria-label="Itch">Itch.io</a>
+            <a href="#" aria-label="LinkedIn">LinkedIn</a>
+          </div>
+      </section>
+
+      <footer>
+        © <span id="year"></span>  Ves | Hosted: GitHub Pages 
+      </footer>
+    </main>
+
+    <!-- Audio elements (placeholders; add real files to /audio/) -->
+    <audio id="sClick" src="Audio/Click.ogg"></audio>
+    <audio id="sHover" src="Audio/HoverQuiet.ogg"></audio>
+    <audio id="sIntro" src="Audio/Ambient.ogg"></audio>
+
+    <script>
+      // Utility open (placeholder)
+      function openLink(u){
+        if(u === '#'){
+          alert('Sorry Ill add the link later.');
+          playClick();
+          return;
+        }
+        window.open(u, '_blank');
+      }
+
+      // Sound helpers (no file: will fail silently if missing)
+      function playSound(id){
+        try{const a=document.getElementById(id); if(a){ a.currentTime=0; a.play(); }}catch(e){}
+      }
+      function playClick(){ playSound('sClick') }
+      function playHover(){ playSound('sHover') }
+
+      // simple hover sound attach
+      document.addEventListener('mouseover', (e)=>{
+        const el = e.target.closest('.btn, a');
+        if(el) playHover();
+      });
+
+      // Terminal intro typing effect
+      const introLines = [
+        'initializing...',
+        'loading assets...',
+        'launching portfolio - welcome.\n'
+      ];
+
+      function typeLines(lines, el, speed=20){
+        return new Promise((resolve)=>{
+          let i=0;
+          function nextLine(){
+            if(i>=lines.length){ resolve(); return }
+            const line = lines[i++] + '\n';
+            let j=0;
+            const span = document.createElement('div'); span.className='line'; el.appendChild(span);
+            const cursor = document.createElement('span'); cursor.className='cursor'; span.appendChild(cursor);
+            function tick(){
+              if(j<line.length){
+                cursor.insertAdjacentText('beforebegin', line[j++]);
+                setTimeout(tick, speed + Math.random()*30);
+              } else {
+                cursor.remove();
+                setTimeout(nextLine, 300);
+              }
+            }
+            tick();
+          }
+          nextLine();
+        })
+      }
+
+      async function startIntro(){
+        const el = document.getElementById('terminalText');
+        await typeLines(introLines, el, 18);
+        // play intro sound if available
+        try{document.getElementById('sIntro').play()}catch(e){}
+        // hide overlay after a short pause
+        setTimeout(()=>{document.getElementById('intro').style.transition='opacity .6s';document.getElementById('intro').style.opacity=0;setTimeout(()=>{document.getElementById('intro').remove();},700)},900);
+      }
+
+      window.onPageLoaded = function(){ /* compatibility with template */ }
+      window.addEventListener('load', ()=>{
+        document.getElementById('year').textContent = new Date().getFullYear();
+        startIntro();
+        // contact/resume buttons
+        document.getElementById('resumeBtn').addEventListener('click', ()=>{
+          openLink('#');
+        });
+        document.getElementById('contactBtn').addEventListener('click', ()=>{
+          document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+        });
+        // accessible keyboard focus sounds
+        document.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ playClick(); } });
+      });
+
+      // minimal accessibility improvement: make keyboard-users see focus
+      document.addEventListener('keydown', function(e){
+        if(e.key === 'Tab') document.body.classList.add('user-is-tabbing');
+      });
+      
+      (() => {
+        const pupils = Array.from(document.querySelectorAll('g.pupil'));
+        if (!pupils.length) return;
+
+        const items = pupils.map(pupil => {
+          // use the transform as rest position
+          return {
+            pupil,
+            svg: pupil.closest('svg'),
+            rest: { x: 0, y: 0 },
+            current: { x: 0, y: 0 },
+            target: { x: 0, y: 0 },
+            baseRx: parseFloat(pupil.firstElementChild.getAttribute('rx')),
+            baseRy: parseFloat(pupil.firstElementChild.getAttribute('ry'))
+          };
+        });
+
+        const MAX_OFFSET = 6;
+        const SOFTNESS = 40;
+        const LERP = 0.16;
+        const MAX_SCALE = 1.5;
+        const MAX_DIST = 80; // distance at which scaling stops increasing
+
+        let mouse = { x: null, y: null, inside: false };
+
+        function clientToSvg(svg, clientX, clientY) {
+          const pt = svg.createSVGPoint();
+          pt.x = clientX; pt.y = clientY;
+          const inv = svg.getScreenCTM().inverse();
+          return pt.matrixTransform(inv);
+        }
+
+        function mappedMagnitude(dist) {
+          return MAX_OFFSET * (1 - Math.exp(-Math.max(0, dist) / SOFTNESS));
+        }
+
+        window.addEventListener('mousemove', e => {
+          mouse.x = e.clientX;
+          mouse.y = e.clientY;
+          mouse.inside = true;
+          updateTargets();
+        });
+
+        window.addEventListener('mouseleave', () => {
+          mouse.x = null;
+          mouse.y = null;
+          mouse.inside = false;
+          items.forEach(it => it.target = { x: 0, y: 0 });
+        });
+
+        function updateTargets() {
+          if (!mouse.inside || mouse.x === null) {
+            items.forEach(it => it.target = { x: 0, y: 0 });
+            return;
+          }
+
+          items.forEach(it => {
+            const { svg } = it;
+            const p = clientToSvg(svg, mouse.x, mouse.y);
+            const cx = it.pupil.firstElementChild.cx.baseVal.value;
+            const cy = it.pupil.firstElementChild.cy.baseVal.value;
+
+            const dx = p.x - cx;
+            const dy = p.y - cy;
+            const dist = Math.sqrt(dx*dx + dy*dy);
+
+            const mag = mappedMagnitude(dist);
+
+            it.target.x = (dx / dist) * mag || 0;
+            it.target.y = (dy / dist) * mag || 0;
+
+            // scale pupil based on distance
+            const proximity = Math.min(dist / MAX_DIST, 1); // 0 = close, 1 = far
+            const scale = 1 + (MAX_SCALE - 1) * (1 - proximity); // invert: closer = bigger
+            it.pupil.firstElementChild.setAttribute('rx', it.baseRx * scale);
+            it.pupil.firstElementChild.setAttribute('ry', it.baseRy * scale);
+          });
+        }
+
+        function rafLoop() {
+          items.forEach(it => {
+            const { pupil, current, target } = it;
+            current.x += (target.x - current.x) * LERP;
+            current.y += (target.y - current.y) * LERP;
+            pupil.setAttribute('transform', `translate(${current.x.toFixed(3)}, ${current.y.toFixed(3)})`);
+          });
+          requestAnimationFrame(rafLoop);
+        }
+
+        updateTargets();
+        rafLoop();
+        window.addEventListener('resize', updateTargets);
+        window.addEventListener('scroll', updateTargets, true);
+      })();     
+      
+      (() => {
+        const whispersContainer = document.getElementById('whispers');
+        const texts = [
+          "do you see it",
+          "it watches",
+          "don't blink",
+          "[REDACTED]",
+          "the void stirs",
+          "whispering",
+          "shadows move",
+          "beware the gaze",
+          "it hungers",
+          "your name is known",
+          "voosh"
+        ];
+
+        function createWhisper() {
+          const span = document.createElement('span');
+          span.className = 'whisper';
+          span.textContent = texts[Math.floor(Math.random() * texts.length)];
+
+          const docWidth = document.documentElement.scrollWidth;
+          const docHeight = document.documentElement.scrollHeight;
+
+          const x = Math.random() * docWidth;
+          const y = Math.random() * docHeight;
+          span.style.left = x + 'px';
+          span.style.top = y + 'px';
+
+          // random scale and rotation
+          const scale = 0.8 + Math.random() * 0.6;
+          const rot = (Math.random() - 0.5) * 40; // -20 to +20 degrees
+          span.style.transform = `scale(${scale}) rotate(${rot}deg)`;
+
+          whispersContainer.appendChild(span);
+
+          // fade in
+          requestAnimationFrame(() => span.style.opacity = 1);
+
+          // remove after random time
+          const duration = 1200 + Math.random() * 1800; // 1.2–3s
+          setTimeout(() => {
+            span.style.opacity = 0;
+            setTimeout(() => span.remove(), 900); // matches CSS transition
+          }, duration);
+        }
+
+        // spawn randomly every 300–800ms
+        setInterval(createWhisper, 200 + Math.random() * 200);
+      })();
+            
+    </script>
+    
+    <script src="js/fog.js"></script>
+    
+  </body>
+</html>
