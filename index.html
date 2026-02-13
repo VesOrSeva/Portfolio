@@ -31,6 +31,13 @@
         overflow-x:hidden;
       }
       
+      /* for narrow screens */
+      html, body {
+        overflow-x: hidden;
+        max-width: 100%;
+        position: relative;
+      }
+      
       /* Glowing pupil */
       .glow ellipse {
           filter: drop-shadow(0 0 2.5px #ff0000)
@@ -105,23 +112,95 @@
 
     @keyframes blink{50%{opacity:0}}
 
-    /* LAYOUT */
-    header{
-      display:flex;
-      align-items:center;
-      gap:20px;
-      padding:28px 32px;
-    }
+
 
     .logo{display:flex; align-items:center; gap:14px}
     .logo svg{width:62px; height:62px}
     .brand{font-weight:700; letter-spacing:1px}
     .tag{color: var(--muted); font-size:14px}
+      
+    header {
+      position: fixed;       /* sticks to viewport */
+      top: 0;
+      left: 0;
+      display: flex;
+      flex-direction: column; /* logo on top, nav below */
+      align-items: flex-start;
+      gap: 20px;
+      padding: 28px 16px;
+      background: rgba(5, 5, 6, 0.96); /* semi-transparent so content can scroll under */
+      z-index: 999;         /* stays on top of everything */
+    }
+      
+    .project-link{
+    text-decoration:none;
+    color:inherit;
+    display:block;
+    }
 
-    main{
+    .project-link:hover .project{
+      border-color: var(--accent);
+      transform: translateY(-4px);
+      transition: all .25s ease;
+      cursor:pointer;
+    }
+      
+      
+    .project-media{
+    margin-top:12px;
+    aspect-ratio: 16 / 12.5; /* forces consistent size */
+    overflow:hidden;
+    border-radius:12px;
+    }
+
+    .project-media img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    display:block;
+    transition: transform .4s ease;
+    }
+      
+    .project-link:hover .project-media img{
+    transform: scale(1.04);
+    }
+
+      .main-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      width: 200px;         /* optional */
+    }
+
+    .nav-btn {
+      text-decoration: none;
+      padding: 10px 14px;
+      border-radius: 6px;
+      border: 1px solid rgba(255,255,255,0.05);
+      background: rgba(10,10,11,0.9);
+      color: var(--muted);
+      font-family: var(--mono);
+      font-size: 13px;
+      text-align: left;
+      transition: all 0.2s ease;
+    }
+
+    .nav-btn:hover {
+      color: var(--text);
+      border-color: var(--accent);
+      transform: translateX(4px);
+    }
+
+    .nav-btn.active {
+      background: var(--accent);
+      color: #fff;
+      border: none;
+    }
+      
+    main {
       max-width: 1100px;
-      margin: 30px auto;
-      padding: 0 20px 80px;
+      margin: 0 auto;
+      padding: 220px 20px 80px; /* top padding = header height + extra spacing */
     }
 
     .hero {
@@ -280,6 +359,14 @@
 
       /* clickable tiny sound hint */
       .sound-hint{font-family:var(--mono);font-size:12px;color:var(--muted);margin-left:8px}
+      
+      /* All buttons hover effect */
+      .btn:hover {
+        color: var(--text);               /* text becomes bright */
+        border-color: var(--accent);      /* red outline */
+        transform: translateY(-2px);      /* slight lift for visual feedback */
+        transition: all 0.2s ease;        /* smooth animation */
+      }
     </style>
   </head>
 
@@ -303,31 +390,39 @@
       </div>
     </div>
 
-    <header>
-      <div class="logo">
-        <!-- UPDATED HEADER LOGO — FLIPPED & DEMON EYE -->
-        <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
-          <rect x="6" y="6" width="88" height="88" rx="12" fill="#0a0a0b" stroke="#fff" stroke-width="3" />
-          <g transform="translate(18,18) rotate(180 30 30)">
-            <path d="M10 50 L30 10 L50 50" fill="none" stroke="white" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
-            <ellipse cx="30" cy="40" rx="7" ry="5" fill="#fff" />
-            <ellipse cx="30" cy="40" rx="1.8" ry="2.8" fill="var(--accent)" />
-          </g>
-        </svg>
+  <header>
+    <div class="logo">
+      <!-- your existing SVG -->
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <rect x="6" y="6" width="88" height="88" rx="12" fill="#0a0a0b" stroke="#fff" stroke-width="3" />
+        <g transform="translate(18,18) rotate(180 30 30)">
+          <path d="M10 50 L30 10 L50 50" fill="none" stroke="white" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+          <ellipse cx="30" cy="40" rx="7" ry="5" fill="#fff" />
+          <ellipse cx="30" cy="40" rx="1.8" ry="2.8" fill="var(--accent)" />
+        </g>
+      </svg>
 
-        <div>
-          <div class="brand">Ves</div>
-          <div class="tag">Game developer</div>
-        </div>
+      <div>
+        <div class="brand">Ves</div>
+        <div class="tag">Game developer</div>
       </div>
-    </header>
+    </div>
+
+    <nav class="main-nav">
+      <a href="index.html" class="nav-btn active">Home</a>
+      <a href="projects/InTheGround.html" class="nav-btn">In The Ground</a>
+      <a href="projects/Reshot.html" class="nav-btn">ReShot</a>
+      <a href="projects/HEARTBEAT.html" class="nav-btn">HEART BEAT</a>
+      <a href="projects/Mix.html" class="nav-btn">Other Projects</a>
+    </nav>
+  </header>
 
      <main>
     <!-- First Hero Section -->
     <div class="hero hero-panel fade-in">
       <div class="hero-left">
-        <h1>Nice To Meet you!</h1>
-        <div class="tagline">Hey! I’m Ves, a game developer who spends an unreasonable amount of time making things feel "intresting".
+        <h1>Nice To Meet You!</h1>
+        <div class="tagline">Hey! I’m Ves, a game developer who spends an unreasonable amount of time making things feel "interesting".
           If something moves, shakes, flashes or pulses that’s probably my fault.</div>
         <div class="accent-line"></div>
 
@@ -336,15 +431,14 @@
         </p>
 
         <div class="cta-row">
-          <button class="btn primary" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View projects</button>
-          <button class="btn" onclick="playClick()">Play sound <span class="sound-hint"></span></button>
+          <button class="btn" onclick="document.getElementById('projects').scrollIntoView({behavior:'smooth'})">View projects</button>
         </div>
 
         <div style="margin-top:18px">
           <strong class="muted">Quick info</strong>
           <div style="display:flex;gap:8px;margin-top:8px;flex-wrap:wrap">
             <div class="skill">Desired Role: Game Feel Designer(Juice master)</div>
-            <div class="skill">Location: UAE</div>
+            <div class="skill">Location: UAE Dubai</div>
 
           </div>
         </div>
@@ -385,58 +479,66 @@
 
         <div class="projects">
           <!-- Project 1 -->
-          <article class="project panel">
-            <div class="proj-head">
-              <div>
-                <div class="proj-title">In The Ground</div>
-                <div class="proj-meta">Development: 3 months · Role: Lead Designer</div>
+          <a href="Projects/InTheGround.html" class="project-link">
+            <article class="project panel">
+              <div class="proj-head">
+                <div>
+                  <div class="proj-title">In The Ground</div>
+                  <div class="proj-meta">Development: 2 months · Role: Lead Designer</div>
+                </div>
               </div>
-            </div>
-            <div class="proj-desc">Your choices will shape the final chapter  of mankind.</div>
-                <img src="Images/NewLook.jpg"
-                alt="Main image"
-                style="width:100%;height:67%;object-fit:cover;border-radius:12px;">
-            <div class="proj-actions">
-              <button class="btn" onclick="openLink('#')">View</button>
-              <button class="btn" onclick="openLink('#')">Download</button>
-            </div>
-          </article>
+
+              <div class="proj-desc">
+                Your choices will shape the final chapter of mankind.
+              </div>
+
+              <div class="project-media">
+                <img src="Images/NewLook.jpg" alt="Main image">
+              </div>
+
+            </article>
+          </a>
 
           <!-- Project 2 -->
-          <article class="project panel">
-            <div class="proj-head">
-              <div>
-                <div class="proj-title">ReShot</div>
-                <div class="proj-meta">Development: 3 days · Role: Lead Designer</div>
+          <a href="Projects/Reshot.html" class="project-link">
+            <article class="project panel">
+              <div class="proj-head">
+                <div>
+                  <div class="proj-title">ReShot</div>
+                  <div class="proj-meta">Development: 3 days · Role: Lead Designer</div>
+                </div>
               </div>
-            </div>
-            <div class="proj-desc">A game where you shoot bullets through time.</div>
-                <img src="Images/ItchPageNewShadow.png"
-                alt="Main image"
-                style="width:100%;height:67%;object-fit:cover;border-radius:12px;">
-            <div class="proj-actions">
-              <button class="btn" onclick="openLink('#')">View</button>
-              <button class="btn" onclick="openLink('#')">Download</button>
-            </div>
-          </article>
+
+              <div class="proj-desc">
+                A game where you shoot bullets through time.
+              </div>
+
+              <div class="project-media">
+                <img src="Images/ItchPageNewShadow.png" alt="Main image">
+              </div>
+            </article>
+          </a>
+          
 
           <!-- Project 3 -->
-          <article class="project panel">
-            <div class="proj-head">
-              <div>
-                <div class="proj-title">HEART BEAT</div>
-                <div class="proj-meta">Development: 3 months · Role: Solo Developer</div>
+          <a href="Projects/HEARTBEAT.html" class="project-link">
+            <article class="project panel">
+              <div class="proj-head">
+                <div>
+                  <div class="proj-title">HEART BEAT</div>
+                  <div class="proj-meta">Development: 3 months · Role: Solo Developer</div>
+                </div>
               </div>
-            </div>
-            <div class="proj-desc">A Stylish, Rhythm FPS.</div>
-                <img src="Images/HeartBeatLogo.png"
-                alt="Main image"
-                style="width:100%;height:67%;object-fit:cover;border-radius:12px;">
-            <div class="proj-actions">
-              <button class="btn" onclick="openLink('#')">View</button>
-              <button class="btn" onclick="openLink('#')">Download</button>
-            </div>
-          </article>
+
+              <div class="proj-desc">
+                A Stylish, Rhythm FPS.
+              </div>
+              
+              <div class="project-media">
+                <img src="Images/HeartBeatLogo.png" alt="Main image">
+              </div>
+            </article>
+          </a>
         </div>
       </section>
        
@@ -448,7 +550,7 @@
             This section exists in case you’re curious. If not, skipping it is a valid and respected choice.
           </p>
           <p class="muted">
-            Hi! I'm Ves, I’m twenty. I listen to metal and rock. I can do a backflip if asked politely. If asked very politely, results may vary.
+            Hi! I'm Ves, I listen to metal and rock. I can do a backflip if asked politely. If asked very politely, results may vary.
           </p>
           <p class="muted">
             I used to do a lot of parkour and acrobatics. I’m really into board games, extreme sports, and “unique” sometimes dangerous activities.
@@ -496,16 +598,35 @@
       </section>
        
 
-      <!-- CONTACT -->
-      <section class="panel" style="margin-top:60px;padding:32px;">
-            <h2>Contact</h2>
-          <div class="contact-grid">
-            <a href="#" aria-label="Email">Email</a>
-            <a href="#" aria-label="GitHub">GitHub</a>
-            <a href="#" aria-label="Itch">Itch.io</a>
-            <a href="#" aria-label="LinkedIn">LinkedIn</a>
-          </div>
-      </section>
+    <!-- CONTACT -->
+    <section class="panel" style="margin-top:60px;padding:32px;">
+      <h2>Contact</h2>
+
+      <div class="contact-buttons">
+        <a href="https://VesOrSeva@gmail.com" class="btn">Email</a>
+
+        <a href="https://github.com/VesOrSeva" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="btn">
+           GitHub
+        </a>
+
+        <a href="https://famona.itch.io/" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="btn">
+           Itch.io
+        </a>
+
+        <a href="https://www.linkedin.com/in/VesOrSeva/" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="btn">
+           LinkedIn
+        </a>
+      </div>
+    </section>
 
       <footer>
         © <span id="year"></span>  Ves | Hosted: GitHub Pages 

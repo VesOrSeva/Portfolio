@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>In The Ground — Project</title>
+
+<style>
+:root{
+  --bg:#050506;
+  --panel:#0a0a0b;
+  --muted:#9aa0a6;
+  --text:#eeeeee;
+  --accent:#ff1a1a;
+  --mono:"SFMono-Regular", Consolas, monospace;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter, system-ui;
+  overflow-x:hidden;
+}
+
+/* ---------------- HEADER ---------------- */
+
+.logo{display:flex; align-items:center; gap:14px}
+.logo svg{width:62px; height:62px}
+.brand{font-weight:700; letter-spacing:1px}
+.tag{color: var(--muted); font-size:14px}
+  
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  padding:28px 16px;
+  background:rgba(5,5,6,0.96);
+  z-index:999;
+}
+
+.main-nav{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width: 200px;
+}
+
+.nav-btn{
+  text-decoration:none;
+  padding:10px 14px;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.05);
+  background:rgba(10,10,11,0.9);
+  color:var(--muted);
+  font-family:var(--mono);
+  font-size:13px;
+  transition:.2s ease;
+}
+
+.nav-btn:hover{
+  color:var(--text);
+  border-color:var(--accent);
+  transform:translateX(4px);
+}
+
+.nav-btn.active{
+  background:var(--accent);
+  color:#fff;
+  border:none;
+}
+
+/* ---------------- MAIN ---------------- */
+
+main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:200px 20px 80px;
+}
+
+.hero{
+  display:grid;
+  gap:40px;
+}
+
+@media(min-width:900px){
+  .hero{
+    grid-template-columns:2fr 1fr;
+  }
+}
+
+.panel{
+  background:rgba(10,10,11,0.9);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:10px;
+  padding:28px;
+}
+
+h1{
+  font-size:52px;
+  margin:0;
+  font-weight:800;
+}
+
+.subtitle{
+  margin-top:12px;
+  color:var(--muted);
+}
+
+.accent-line{
+  height:3px;
+  width:160px;
+  background:var(--accent);
+  margin:18px 0;
+  border-radius:2px;
+}
+
+.meta{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--muted);
+  margin-top:12px;
+}
+
+img{
+  width:100%;
+  border-radius:12px;
+  margin-top:18px;
+}
+
+.section{
+  margin-top:60px;
+}
+
+.section h2{
+  margin-bottom:10px;
+}
+
+.muted{
+  color:var(--muted);
+}
+
+/* whispers + fog layers */
+#whispers{
+  position:absolute;
+  inset:0;
+  z-index:-9998;
+  pointer-events:none;
+  font-family:var(--mono);
+  color:rgba(255,0,0,0.2);
+  mix-blend-mode:screen;
+}
+
+.whisper{
+  position:absolute;
+  opacity:0;
+  transition:opacity .8s ease;
+}
+
+#fogCanvas{
+  position:fixed;
+  inset:0;
+  z-index:-9999;
+  pointer-events:none;
+}
+
+footer{
+  margin-top:80px;
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+}
+ /* -------- SHADER GRID -------- */
+
+.shader-grid{
+  display:flex;
+  flex-direction:column;
+  gap:40px;
+  margin-top:30px;
+}
+
+.shader-item{
+  display:grid;
+  gap:24px;
+  align-items:center;
+}
+
+@media(min-width:900px){
+  .shader-item{
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.shader-item img{
+  width:100%;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.05);
+}
+
+.shader-text h3{
+  margin:0 0 10px 0;
+}
+
+.shader-text p{
+  margin:0;
+  color:var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<div id="whispers"></div>
+<canvas id="fogCanvas"></canvas>
+
+<header>
+      <div class="logo">
+      <!-- your existing SVG -->
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <rect x="6" y="6" width="88" height="88" rx="12" fill="#0a0a0b" stroke="#fff" stroke-width="3" />
+        <g transform="translate(18,18) rotate(180 30 30)">
+          <path d="M10 50 L30 10 L50 50" fill="none" stroke="white" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+          <ellipse cx="30" cy="40" rx="7" ry="5" fill="#fff" />
+          <ellipse cx="30" cy="40" rx="1.8" ry="2.8" fill="var(--accent)" />
+        </g>
+      </svg>
+
+      <div>
+        <div class="brand">Ves</div>
+        <div class="tag">Game developer</div>
+      </div>
+    </div>
+  
+  <nav class="main-nav">
+    <a href="../index.html" class="nav-btn">Home</a>
+    <a href="../Projects/InTheGround.html" class="nav-btn active">In The Ground</a>
+    <a href="../Projects/Reshot.html" class="nav-btn">ReShot</a>
+    <a href="../Projects/HEARTBEAT.html" class="nav-btn">HEART BEAT</a>
+    <a href="../projects/Mix.html" class="nav-btn">Other Projects</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero panel">
+    <div>
+      <h1>In The Ground</h1>
+      <div class="subtitle">
+        Your choices will shape the final chapter of mankind.
+      </div>
+
+      <div class="accent-line"></div>
+
+      <p class="muted">
+        A dark narrative strategy game about survival, sacrifice,
+        and the psychological weight of leadership.
+      </p>
+    </div>
+
+    <div>
+      <img src="../Images/NewLook.jpg" alt="In The Ground screenshot">
+    </div>
+  </div>
+
+  <!-- OVERVIEW -->
+  <section class="section panel">
+    <h2>Overview</h2>
+    <p class="muted">
+      In The Ground is a high-stakes decision-driven experience set
+      completly in the bunker, after the end of civilization. It's a multiplayer social game, 
+      where up to 6 players compete against each other, while having to cooperate to save the bunker.
+    </p>
+    <p class="muted">
+      The core focus was emotional weight. Every action costs something.
+      There are no clean victories.
+    </p>
+  </section>
+
+  <!-- MY ROLE -->
+  <section class="section panel">
+    <h2>My Role</h2>
+    <ul class="muted">
+      <li>Developing the visual side or the project</li>
+      <li>UX and UI Design</li>
+      <li>Designed core gameplay systems</li>
+      <li>Built narrative structure</li>
+      <li>Implemented decision and consequence logic</li>
+      <li>Handled audio direction and atmosphere</li>
+    </ul>
+  </section>
+
+  <!-- Visuals -->
+<section class="section panel">
+  <h2>Art Direction and Visuals</h2>
+
+  <p class="muted">
+    I handled the game’s visual implementation pipeline.
+    Below are selected technical breakdowns.
+  </p>
+
+  <div class="shader-grid">
+
+    <!-- SLOT 1 -->
+    <div class="shader-item">
+      <img src="../Images/InTheGround/Start.png" alt="Post Processing Effect 1">
+
+      <div class="shader-text">
+        <h3>Starting Point</h3>
+        <p>
+          This is how the game looks without lighting, post
+          processing, shaders, or effects. At this stage, I was
+          also responsible for the room design, as well as the
+          nameplates, track displays, computer, tape player,
+          and meeting table.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLOT 2 -->
+    <div class="shader-item">
+      <img src="../Images/InTheGround/Light.png" alt="Post Processing Effect 2">
+
+      <div class="shader-text">
+        <h3>Lighting</h3>
+        <p>
+          Here the scene uses lighting and rendering
+          techniques. To push strong contrast, I kept the
+          environment very dark and used extremely bright
+          light sources.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLOT 3 -->
+    <div class="shader-item">
+      <img src="../Images/InTheGround/Post.png" alt="Post Processing Effect 3">
+
+      <div class="shader-text">
+        <h3>Post Processing</h3>
+        <p>
+          Post-processing uses almost every available effect in Unity. 
+          The most important one is color lookup
+          curves, for which I created over 20 custom palettes
+          to choose from.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLOT 4 -->
+    <div class="shader-item">
+      <img src="../Images/NewLook.jpg" alt="Post Processing Effect 4">
+
+      <div class="shader-text">
+        <h3>Final Result</h3>
+        <p>
+          The final look combines full-screen outlines,
+          dithering, pixelation, VFX, and custom shaders.
+          In addition, I created dedicated screen shaders for
+          all in-game screens, featuring noise, scanlines, and
+          their own post-processing volume.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+  
+<!-- UI Design and Implementation -->
+<section class="section panel">
+  <h2>UI Design and Implementation</h2>
+
+  <p class="muted">
+      I was the one behind the game’s UI. 
+      My goal was to make everything diegetic, with no exceptions.
+  </p>
+
+  <div class="shader-grid">
+
+    <!-- SLOT 1 -->
+    <div class="shader-item">
+      <img src="../Images/InTheGround/Dilemma.png" alt="Post Processing Effect 1">
+
+      <div class="shader-text">
+        <h3>“Document UI”</h3>
+        <p>
+          The document UI is the player’s diegetic way to
+          interact with the world. To increase immersion, I
+          programmed a system that lets players draw or
+          write any check, sign, or signature, the same way
+          you would in real life.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLOT 2 -->
+    <div class="shader-item">
+      <img src="../Images/InTheGround/ComputerUI.png" alt="Post Processing Effect 2">
+
+      <div class="shader-text">
+        <h3>Computer UI</h3>
+        <p>
+          I designed and implemented the diegetic main/pause
+          menu, and lobby. The computer features slide in/out
+          animations, along with the full interaction logic.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLOT 3 -->
+    <div class="shader-item">
+      <img src="../Images/InTheGround/code.jpg" alt="Post Processing Effect 3">
+
+      <div class="shader-text">
+        <h3>System Programming</h3>
+        <p>
+          I worked on multiple systems tied to the core gameplay
+          loop. I also worked on secret objectives, keyword and the
+          victory points system. Overall, I acted as a secondary
+          programmer under our lead.
+        </p>
+      </div>
+    </div>
+
+    <!-- SLOT 4 -->
+    <div class="shader-item">
+      <img src="../Images/InTheGround/Audio.png" alt="Post Processing Effect 4">
+
+      <div class="shader-text">
+        <h3>Audio Implementation</h3>
+        <p>
+          Implemented all in-game audio systems, including event
+          logic, spatialization, mixing, and runtime control. I Also
+          Integrated audio files, created by team member. Besides
+          this, I also created some of my own sound FX.
+        </p>
+      </div>
+    </div>
+    
+     <!-- SLOT 4 -->
+    <div class="shader-item">
+      <img src="../Images/InTheGround/Networking.png" alt="Post Processing Effect 4">
+
+      <div class="shader-text">
+        <h3>Networking</h3>
+        <p>
+          While my contribution to networking was smaller
+          compared to other areas of the game, it remains one of my biggest
+          achievements. I had no prior experience with networking
+          before this project, yet I still implemented several
+          networked systems. That said, the core networking
+          solution was designed and implemented by our lead
+          programmer.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+  <!-- RESULT -->
+  <section class="section panel">
+    <h2>UI Design and Implementation</h2>
+    <p class="muted">
+      I was the one behind the game’s UI. My goal was to make everything diegetic, with no exceptions.
+    </p>
+  </section>
+
+  <footer>
+    © <span id="year"></span> Ves
+  </footer>
+
+</main>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* Whisper effect */
+const whispers = document.getElementById("whispers");
+const texts = [
+  "it remembers",
+  "no one survives",
+  "dig deeper",
+  "they are below",
+  "last decision",
+  "irreversible",
+  "deep in the ground"
+];
+
+function spawnWhisper(){
+  const span = document.createElement("span");
+  span.className="whisper";
+  span.textContent=texts[Math.floor(Math.random()*texts.length)];
+  span.style.left=Math.random()*document.body.scrollWidth+"px";
+  span.style.top=Math.random()*document.body.scrollHeight+"px";
+  whispers.appendChild(span);
+
+  requestAnimationFrame(()=>span.style.opacity=1);
+  setTimeout(()=>{
+    span.style.opacity=0;
+    setTimeout(()=>span.remove(),800);
+  },2000);
+}
+
+setInterval(spawnWhisper,600);
+</script>
+
+<script src="../js/fog.js"></script>
+
+</body>
+</html>

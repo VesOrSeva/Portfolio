@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>In The Ground — Project</title>
+
+<style>
+:root{
+  --bg:#050506;
+  --panel:#0a0a0b;
+  --muted:#9aa0a6;
+  --text:#eeeeee;
+  --accent:#ff1a1a;
+  --mono:"SFMono-Regular", Consolas, monospace;
+}
+
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:var(--bg);
+  color:var(--text);
+  font-family:Inter, system-ui;
+  overflow-x:hidden;
+}
+
+/* ---------------- HEADER ---------------- */
+
+.logo{display:flex; align-items:center; gap:14px}
+.logo svg{width:62px; height:62px}
+.brand{font-weight:700; letter-spacing:1px}
+.tag{color: var(--muted); font-size:14px}
+    
+header{
+  position:fixed;
+  top:0;
+  left:0;
+  display:flex;
+  flex-direction:column;
+  gap:20px;
+  padding:28px 16px;
+  background:rgba(5,5,6,0.96);
+  z-index:999;
+}
+
+.main-nav{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+  width: 200px;
+}
+
+.nav-btn{
+  text-decoration:none;
+  padding:10px 14px;
+  border-radius:6px;
+  border:1px solid rgba(255,255,255,0.05);
+  background:rgba(10,10,11,0.9);
+  color:var(--muted);
+  font-family:var(--mono);
+  font-size:13px;
+  transition:.2s ease;
+}
+
+.nav-btn:hover{
+  color:var(--text);
+  border-color:var(--accent);
+  transform:translateX(4px);
+}
+
+.nav-btn.active{
+  background:var(--accent);
+  color:#fff;
+  border:none;
+}
+
+/* ---------------- MAIN ---------------- */
+
+main{
+  max-width:1100px;
+  margin:0 auto;
+  padding:200px 20px 80px;
+}
+
+.hero{
+  display:grid;
+  gap:40px;
+}
+
+@media(min-width:900px){
+  .hero{
+    grid-template-columns:2fr 1fr;
+  }
+}
+
+.panel{
+  background:rgba(10,10,11,0.9);
+  border:1px solid rgba(255,255,255,0.05);
+  border-radius:10px;
+  padding:28px;
+}
+
+h1{
+  font-size:52px;
+  margin:0;
+  font-weight:800;
+}
+
+.subtitle{
+  margin-top:12px;
+  color:var(--muted);
+}
+
+.accent-line{
+  height:3px;
+  width:160px;
+  background:var(--accent);
+  margin:18px 0;
+  border-radius:2px;
+}
+
+.meta{
+  font-family:var(--mono);
+  font-size:13px;
+  color:var(--muted);
+  margin-top:12px;
+}
+
+img{
+  width:100%;
+  border-radius:12px;
+  margin-top:18px;
+}
+
+.section{
+  margin-top:60px;
+}
+
+.section h2{
+  margin-bottom:10px;
+}
+
+.muted{
+  color:var(--muted);
+}
+  
+/* ---------------- REUSABLE SPLIT LAYOUT ---------------- */
+
+.split-stack{
+  display:flex;
+  flex-direction:column;
+  gap:50px;
+  margin-top:30px;
+}
+
+.split-row{
+  display:grid;
+  gap:28px;
+  align-items:center;
+}
+
+@media(min-width:900px){
+  .split-row{
+    grid-template-columns:1fr 1fr;
+  }
+}
+
+.split-media img,
+.split-media video{
+  width:100%;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,0.05);
+  display:block;
+}
+
+.split-content h3{
+  margin:0 0 12px 0;
+}
+
+.split-content p{
+  margin:0;
+  color:var(--muted);
+}
+
+/* whispers + fog layers */
+#whispers{
+  position:absolute;
+  inset:0;
+  z-index:-9998;
+  pointer-events:none;
+  font-family:var(--mono);
+  color:rgba(255,0,0,0.2);
+  mix-blend-mode:screen;
+}
+
+.whisper{
+  position:absolute;
+  opacity:0;
+  transition:opacity .8s ease;
+}
+
+#fogCanvas{
+  position:fixed;
+  inset:0;
+  z-index:-9999;
+  pointer-events:none;
+}
+
+footer{
+  margin-top:80px;
+  text-align:center;
+  font-size:13px;
+  color:var(--muted);
+}
+</style>
+</head>
+
+<body>
+
+<div id="whispers"></div>
+<canvas id="fogCanvas"></canvas>
+
+<header>
+      <div class="logo">
+      <!-- your existing SVG -->
+      <svg viewBox="0 0 100 100" aria-hidden="true" focusable="false">
+        <rect x="6" y="6" width="88" height="88" rx="12" fill="#0a0a0b" stroke="#fff" stroke-width="3" />
+        <g transform="translate(18,18) rotate(180 30 30)">
+          <path d="M10 50 L30 10 L50 50" fill="none" stroke="white" stroke-width="6" stroke-linejoin="round" stroke-linecap="round"/>
+          <ellipse cx="30" cy="40" rx="7" ry="5" fill="#fff" />
+          <ellipse cx="30" cy="40" rx="1.8" ry="2.8" fill="var(--accent)" />
+        </g>
+      </svg>
+
+      <div>
+        <div class="brand">Ves</div>
+        <div class="tag">Game developer</div>
+      </div>
+    </div>
+    
+  <nav class="main-nav">
+    <a href="../index.html" class="nav-btn">Home</a>
+    <a href="../Projects/InTheGround.html" class="nav-btn">In The Ground</a>
+    <a href="../Projects/Reshot.html" class="nav-btn">ReShot</a>
+    <a href="../Projects/HEARTBEAT.html" class="nav-btn">HEART BEAT</a>
+    <a href="../Projects/Mix.html" class="nav-btn active">Other Projects</a>
+  </nav>
+</header>
+
+<main>
+
+  <!-- HERO -->
+  <div class="hero panel">
+    <div>
+      <h1>My Other Projects</h1>
+      <div class="subtitle">       
+          A mix of projects I have worked on.
+      </div>
+
+      <div class="accent-line"></div>
+
+      <p class="muted">
+        
+      </p>
+    </div>
+  </div>
+
+
+<!-- Level and Game Design -->
+<section class="section panel">
+
+  <div class="split-stack">
+
+    <div class="split-row">
+      <div class="split-media">
+        <img src="../Images/OtherProjects/AudioProject.jpg" alt="">
+      </div>
+      <div class="split-content">
+        <h3>Audio Project</h3>
+        <p>
+          ddd
+        </p>
+      </div>
+    </div>
+
+    <div class="split-row">
+      <div class="split-media">
+        <img src="../Images/OtherProjects/PixelShader.jpg" alt="">
+      </div>
+      <div class="split-content">
+        <h3>Pixel Shader</h3>
+        <p>
+            A simple combo of pixelation and toon shaders.
+        </p>
+      </div>
+    </div>
+
+    <div class="split-row">
+      <div class="split-media">
+        <img src="../Images/OtherProjects/WierdShaderEffect.jpg" alt="">
+      </div>
+      <div class="split-content">
+        <h3>Weird Shader</h3>
+        <p>
+          dddd
+        </p>
+      </div>
+    </div>
+
+    <div class="split-row">
+      <div class="split-media">
+        <img src="../Images/OtherProjects/ConceptArt.jpg" alt="">
+      </div>
+      <div class="split-content">
+        <h3>Concept Art</h3>
+        <p>
+          Concept art for a convict conscript in a game set in WW1. Made in Photoshop.
+        </p>
+      </div>
+    </div>
+    
+    <div class="split-row">
+      <div class="split-media">
+        <img src="../Images/OtherProjects/Board.jpg" alt="">
+      </div>
+      <div class="split-content">
+        <h3>Board Game</h3>
+        <p>
+          Alongside partner designed a board game prototype. Also created all the art for the game.
+        </p>
+      </div>
+    </div>
+      
+    <div class="split-row">
+        <div class="split-media">
+        <video controls preload="metadata">
+          <source src="../Images/OtherProjects/Gore.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+  </div>
+  <div class="split-content">
+    <h3>Gore and Game Feel</h3>
+    <p>
+      Short clip demonstrating gore and gun effects I created, for one of the projects.
+    </p>
+  </div>
+</div>
+
+ <div class="split-row">
+      <div class="split-media">
+        <video controls preload="metadata">
+          <source src="../Images/OtherProjects/Gore2.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+   <div class="split-content">
+     <h3>Gore and Game Feel 2</h3>
+      <p>
+        Short clip demonstrating parry and dismambering systems.
+      </p>
+    </div>
+  </div>
+    
+    
+  <div class="split-row">
+      <div class="split-media">
+        <video controls preload="metadata">
+          <source src="../Images/OtherProjects/NoContact.mp4" type="video/mp4">
+          Your browser does not support the video tag.
+        </video>
+      </div>
+   <div class="split-content">
+     <h3>No Contact</h3>
+      <p>
+        A small managment game, with retro asthetics.
+      </p>
+    </div>
+  </div>
+    
+  </div>
+</section>
+
+
+  <footer>
+    © <span id="year"></span> Ves
+  </footer>
+
+</main>
+
+<script>
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* Whisper effect */
+const whispers = document.getElementById("whispers");
+const texts = [
+  "it remembers",
+  "no one survives",
+  "dig deeper",
+  "they are below",
+  "last decision",
+  "irreversible"
+];
+
+function spawnWhisper(){
+  const span = document.createElement("span");
+  span.className="whisper";
+  span.textContent=texts[Math.floor(Math.random()*texts.length)];
+  span.style.left=Math.random()*document.body.scrollWidth+"px";
+  span.style.top=Math.random()*document.body.scrollHeight+"px";
+  whispers.appendChild(span);
+
+  requestAnimationFrame(()=>span.style.opacity=1);
+  setTimeout(()=>{
+    span.style.opacity=0;
+    setTimeout(()=>span.remove(),800);
+  },2000);
+}
+
+setInterval(spawnWhisper,600);
+</script>
+
+<script src="../js/fog.js"></script>
+
+</body>
+</html>
