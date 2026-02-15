@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/png" href="../Images/FavIcon.png">
 <title>In The Ground — Project</title>
 
 <style>
@@ -143,7 +144,7 @@ img{
 .muted{
   color:var(--muted);
 }
-  
+
 /* ---------------- REUSABLE SPLIT LAYOUT ---------------- */
 
 .split-stack{
@@ -258,7 +259,12 @@ footer{
       <div class="accent-line"></div>
 
       <p class="muted">
-        A 2D platformer shooter, but with a twist: You’ve got a Time-Loop Gun.
+        <a href="https://jeck0-0.itch.io/gmtk-2025" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="nav-btn active">
+           Play The Game
+        </a>
       </p>
     </div>
 
@@ -278,10 +284,8 @@ footer{
         appearing in your next life exactly when and where it was first shot..
     </p>
     <p class="muted">
-        Plan your shots. 
-        Die with purpose. 
-        Use your past selves' bullets to open paths, 
-        defeat enemies, and outsmart the level itself.
+      The game in place 20 among 9,560 entries on GMTK game jam 2025, in the creativity criteria.
+      And scored respectable scores among all other criterias
     </p>
   </section>
 
@@ -289,22 +293,19 @@ footer{
   <section class="section panel">
     <h2>My Role</h2>
     <ul class="muted">
-      <li>Developing the visual side or the project</li>
-      <li>UX and UI Design</li>
-      <li>Designed core gameplay systems</li>
-      <li>Built narrative branching structure</li>
-      <li>Implemented decision and consequence logic</li>
-      <li>Handled audio direction and atmosphere</li>
+      <li>Project idea and concept</li>
+      <li>Main Mechanics and systems</li>
+      <li>Level Design</li>
+      <li>Music and Audio</li>
+      <li>Juice and Polish</li>
+      <li>Visuals and post processing</li>
+      <li>Part job in game art</li>
     </ul>
   </section>
 
 <!-- Level and Game Design -->
 <section class="section panel">
-  <h2>Game and Level Design</h2>
-
-  <p class="muted">
-    Here's my work in the field of game and level design.
-  </p>
+  <h2>Work Showcase</h2>
 
   <div class="split-stack">
 
@@ -313,36 +314,28 @@ footer{
         <img src="../Images/ReShot/Poster2.png" alt="">
       </div>
       <div class="split-content">
-        <h3>Starting Point</h3>
+        <h3>Level Design</h3>
         <p>
-          Base environment without lighting or post processing.
-          Focused on layout clarity and diegetic object placement.
+          All the levels and puzzles for the game where designed by me.
+          The biggest challange was to make the levels that fit well around main mechanic.
+          In game player needs to reset the level an play through it multiple times.
+          So I needed to find a right balance so that players won't get bored going through the same level many times.
+          So longer levels feature short cuts and player is spawned roughly in the middle of the level, so they
+          won't have spend to much time going in specific direction.
         </p>
       </div>
     </div>
 
-    <div class="split-row">
-      <div class="split-media">
-        <img src="../Images/InTheGround/Light.png" alt="">
-      </div>
-      <div class="split-content">
-        <h3>Lighting Pass</h3>
-        <p>
-          High contrast lighting with aggressive highlights to push mood.
-          Darkness used as a design tool, not just atmosphere.
-        </p>
-      </div>
-    </div>
+
 
     <div class="split-row">
       <div class="split-media">
-        <img src="../Images/InTheGround/Post.png" alt="">
+        <img src="../Images/ReShot/Doors.png" alt="">
       </div>
       <div class="split-content">
-        <h3>Post Processing</h3>
+        <h3>Enviromental Art</h3>
         <p>
-          Custom LUT system with 20+ palettes.
-          Full stack tuning including bloom, contrast curves, and tonal compression.
+          Decorations, tile sets etc.
         </p>
       </div>
     </div>
@@ -352,26 +345,33 @@ footer{
         <img src="../Images/ReShot/Enemies.png" alt="">
       </div>
       <div class="split-content">
-        <h3>Art</h3>
+        <h3>Character Art</h3>
         <p>
-          I created some of the art assets for the game.
-          I focused on making a set of bits that could be assembled together in various ways.
+          All the character and enemy art.
+          I focused on making a set of bits and pieces that could be assembled together in various ways.
+          This was done to save time on enemy variarity and design.
+        </p>
+      </div>
+    </div>
+    
+    <div class="split-row">
+      <div class="split-media">
+        <img src="../Images/ReShot/MusicReShot.jpeg" alt="">
+      </div>
+      <div class="split-content">
+        <h3>Music</h3>
+        <p>
+          I composed all the music for the game. 
+          Since it was a game jam and time was limited I decided to use Grage band,
+           and prerecorded loops from the app. Overall the music was made in a about 3 hours.
+          I also developed a music manager that would play the intro part of the music, and then loop
+          the main part to created seamless music experiance.
         </p>
       </div>
     </div>
 
   </div>
 </section>
-
-  <!-- RESULT -->
-  <section class="section panel">
-    <h2>Outcome</h2>
-    <p class="muted">
-      Delivered a fully playable vertical slice within two months.
-      The project demonstrated strong narrative cohesion,
-      atmospheric direction, and systems clarity.
-    </p>
-  </section>
 
   <footer>
     © <span id="year"></span> Ves
@@ -408,7 +408,7 @@ function spawnWhisper(){
   },2000);
 }
 
-setInterval(spawnWhisper,600);
+setInterval(spawnWhisper,400);
 </script>
 
 <script src="../js/fog.js"></script>

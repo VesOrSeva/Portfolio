@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<link rel="icon" type="image/png" href="../Images/FavIcon.png">
 <title>In The Ground — Project</title>
 
 <style>
@@ -258,13 +259,17 @@ footer{
       <div class="accent-line"></div>
 
       <p class="muted">
-        A dark narrative strategy game about survival, sacrifice,
-        and the psychological weight of leadership.
+        <a href="https://famona.itch.io/heart-beat" 
+           target="_blank" 
+           rel="noopener noreferrer" 
+           class="nav-btn active">
+           Play The Game
+        </a>
       </p>
     </div>
 
     <div>
-      <img src="../Images/HeartBeatLogo.png" alt="In The Ground screenshot">
+      <img src="../Images/HeartBeat/Hear%20beat.png" alt="In The Ground screenshot">
     </div>
   </div>
 
@@ -272,104 +277,63 @@ footer{
   <section class="section panel">
     <h2>Overview</h2>
     <p class="muted">
-      In The Ground is a high-stakes decision-driven experience set
-      completly in the bunker, after the end of civilization. It's a multiplayer social game, 
-      where up to 6 players compete against each other, while having to cooperate to save the bunker.
-    </p>
-    <p class="muted">
-      The core focus was emotional weight. Every action costs something.
-      There are no clean victories.
+      HEART BEAT is a fast-paced rhythm shooter where every move you make has to be in sync with the beat. 
+      Whether you're shooting, jumping, dashing, or dodging, timing it right isn't just cool, it's essential.
     </p>
   </section>
   
 <!-- AUdio Engineriend -->
 <section class="section panel">
-  <h2>Audio Programming</h2>
-
-  <p class="muted">
-    Here's my work in the field of game and level design.
-  </p>
 
   <div class="split-stack">
 
     <div class="split-row">
       <div class="split-media">
-        <img src="../Images/ReShot/Poster2.png" alt="">
+        <img src="../Images/HEARTBEAT/Unity.png" alt="">
       </div>
       <div class="split-content">
-        <h3>Starting Point</h3>
+        <h3>Shaders and Post Processing</h3>
         <p>
-          Base environment without lighting or post processing.
-          Focused on layout clarity and diegetic object placement.
+          The game ususes large number of shaders and post processing technics.
+          To achieve a sketch book asthetic.
         </p>
       </div>
     </div>
 
     <div class="split-row">
       <div class="split-media">
-        <img src="../Images/InTheGround/Light.png" alt="">
+        <img src="../Images/HEARTBEAT/Shotgun.png" alt="">
       </div>
       <div class="split-content">
-        <h3>Lighting Pass</h3>
+        <h3>Game Art</h3>
         <p>
-          High contrast lighting with aggressive highlights to push mood.
-          Darkness used as a design tool, not just atmosphere.
+          All the 2d art was made in photoshop by me.
         </p>
       </div>
     </div>
 
     <div class="split-row">
       <div class="split-media">
-        <img src="../Images/InTheGround/Post.png" alt="">
+        <img src="../Images/HEARTBEAT/BeatManager.png" alt="">
       </div>
       <div class="split-content">
-        <h3>Post Processing</h3>
+        <h3>Audio Programming</h3>
         <p>
-          Custom LUT system with 20+ palettes.
-          Full stack tuning including bloom, contrast curves, and tonal compression.
+          In the game everything follows a rhythm. 
+          To achieve this I created a beat manager that sets the beat 
+          and manages it's sinc with the music that is played.
+          It also manages music levels, a system where the better
+          player plays on beat the more the music will kick in.
+          This is done through playing 3 diffrent tracks simultaniously.
+          And beat manager managing how many tracks should be heard at the moment.
+          While everthing else subscribes to it and does specified things on beat.
         </p>
       </div>
     </div>
-
-    <div class="split-row">
-      <div class="split-media">
-        <img src="../Images/ReShot/Enemies.png" alt="">
-      </div>
-      <div class="split-content">
-        <h3>Art</h3>
-        <p>
-          I created some of the art assets for the game.
-          I focused on making a set of bits that could be assembled together in various ways.
-        </p>
-      </div>
-    </div>
-
   </div>
 </section>
 
-  <!-- DESIGN FOCUS -->
-  <section class="section panel">
-    <h2>Shaders and post processing</h2>
-    <p class="muted">
-        I handled the game’s visual direction and implementation. 
-        Aside from most 3D models, all visuals
-        were created and implemented by me.
-    </p>
-    <p class="muted">
-      Visual minimalism and environmental sound design
-      reinforce psychological pressure.
-    </p>
-  </section>
 
-  <!-- RESULT -->
-  <section class="section panel">
-    <h2>Outcome</h2>
-    <p class="muted">
-      Delivered a fully playable vertical slice within two months.
-      The project demonstrated strong narrative cohesion,
-      atmospheric direction, and systems clarity.
-    </p>
-  </section>
 
   <footer>
     © <span id="year"></span> Ves
@@ -406,7 +370,7 @@ function spawnWhisper(){
   },2000);
 }
 
-setInterval(spawnWhisper,600);
+setInterval(spawnWhisper,400);
 </script>
 
 <script src="../js/fog.js"></script>

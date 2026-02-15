@@ -3,7 +3,8 @@
   <head>  
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>Vsevolod Kolomytsev — Portfolio</title>
+    <link rel="icon" type="image/png" href="Images/FavIcon.png">
+    <title>Vsevolod Kolomytsev — Portfolio</title>    
     <style>
       /* ------------------
          Dark · Brutal · Bald
@@ -427,7 +428,7 @@
         <div class="accent-line"></div>
 
         <p style="margin-top:16px;color:var(--muted)">
-         I handle most of the pipeline: design, code, art, audio, music - anything except documentation.
+         I handle most of the pipeline: design, code, art, audio and music.
         </p>
 
         <div class="cta-row">
@@ -468,7 +469,7 @@
 
       <!-- BIG SECTION PANEL that follows -->
       <section class="panel" style="margin-top:60px;padding:32px;">
-        <h2>TLDR</h2>
+        <h2>In Short</h2>
         <p class="muted">If you’re looking for someone who can take a game from “it runs” to “this is somewhat enjoyable,” that’s where I’m most comfortable.</p>
       </section>
 
@@ -526,7 +527,7 @@
               <div class="proj-head">
                 <div>
                   <div class="proj-title">HEART BEAT</div>
-                  <div class="proj-meta">Development: 3 months · Role: Solo Developer</div>
+                  <div class="proj-meta">Development: 3 months · Role: Solo Dev</div>
                 </div>
               </div>
 
@@ -704,23 +705,38 @@
 
       window.onPageLoaded = function(){ /* compatibility with template */ }
       window.addEventListener('load', ()=>{
-        document.getElementById('year').textContent = new Date().getFullYear();
-        startIntro();
-        // contact/resume buttons
-        document.getElementById('resumeBtn').addEventListener('click', ()=>{
-          openLink('#');
-        });
-        document.getElementById('contactBtn').addEventListener('click', ()=>{
-          document.getElementById('contact').scrollIntoView({behavior:'smooth'});
-        });
-        // accessible keyboard focus sounds
-        document.addEventListener('keydown', (e)=>{ if(e.key === 'Enter'){ playClick(); } });
-      });
+    document.getElementById('year').textContent = new Date().getFullYear();
 
-      // minimal accessibility improvement: make keyboard-users see focus
-      document.addEventListener('keydown', function(e){
-        if(e.key === 'Tab') document.body.classList.add('user-is-tabbing');
+    const hasSeenIntro = sessionStorage.getItem('introPlayed');
+
+    if (!hasSeenIntro) {
+      startIntro();
+      sessionStorage.setItem('introPlayed', 'true');
+    } else {
+      const intro = document.getElementById('intro');
+      if (intro) intro.remove();
+    }
+
+    // contact/resume buttons
+    const resumeBtn = document.getElementById('resumeBtn');
+    if (resumeBtn) {
+      resumeBtn.addEventListener('click', ()=>{
+        openLink('#');
       });
+    }
+
+    const contactBtn = document.getElementById('contactBtn');
+    if (contactBtn) {
+      contactBtn.addEventListener('click', ()=>{
+        document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+      });
+    }
+
+    // keyboard click sound
+    document.addEventListener('keydown', (e)=>{
+      if(e.key === 'Enter'){ playClick(); }
+    });
+});
       
       (() => {
         const pupils = Array.from(document.querySelectorAll('g.pupil'));
